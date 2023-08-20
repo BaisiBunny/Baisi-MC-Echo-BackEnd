@@ -8,6 +8,8 @@ import tech.baisi.mc.echo.BackEnd.Database.UserEntity;
 import tech.baisi.mc.echo.BackEnd.Database.UserMapper;
 import tech.baisi.mc.echo.BackEnd.Entity.UserData;
 
+import java.util.List;
+
 
 @RestController
 public class WebRequests {
@@ -23,16 +25,16 @@ public class WebRequests {
     ){
         //检查合法性
         if(!MyFunctions.IsLegalNameOrPassword(name)){
-            return "你的玩家ID不符合标准。";
+            return "illegal_name";
         }
         if(!userMapper.GetNames(name).isEmpty()){
-            return "玩家ID已被占用。";
+            return "name_exists";
         }
         if(!MyFunctions.IsLegalNameOrPassword(password)){
-            return "你的密码不符合标准。";
+            return "illegal_password";
         }
         if(reg_ip.equals("#no#ip")){
-            return "请稍等几秒再尝试。";
+            return "please_wait";
         }
 
         //插入新数据
@@ -41,7 +43,7 @@ public class WebRequests {
         String time = MyFunctions.GetTimeNow();
         userMapper.insert(new UserEntity(name,password,token,0,game_key,"empty",reg_ip,time));
 
-        return token;
+        return "token:"+token;
     }
 
     @RequestMapping("/get_data")
@@ -56,5 +58,18 @@ public class WebRequests {
         }
     }
 
-
+    @RequestMapping("/login")
+    public String Login(
+        @RequestParam(name = "name", defaultValue = "#no#name") String name,
+        @RequestParam(name = "password", defaultValue = "#no#password") String password
+    ){
+        List<UserEntity> userEntities = userMapper.GetUserEntityByName(name);
+        if(userEntities.isEmpty()){
+            return "user_not_exist";
+        }
+        if(!password.equals(userEntities.get(0).getPassword())){
+            return "wrong_password";
+        }
+        return "token:"+userEntities.get(0).getToken();
+    }
 }

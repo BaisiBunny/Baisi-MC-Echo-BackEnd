@@ -18,4 +18,7 @@ public interface UserMapper extends BaseMapper<UserEntity> {
 
     @Select("SELECT name, password, token, money, game_key, status, reg_ip, reg_date FROM mc.`user` WHERE token = #{token};")
     public List<UserEntity> GetUserEntityByToken(String token);
+
+    @Select("SELECT name, password, token, money, game_key, status, reg_ip, reg_date FROM mc.`user` WHERE name = #{name};")
+    public List<UserEntity> GetUserEntityByName(String name);
 }
