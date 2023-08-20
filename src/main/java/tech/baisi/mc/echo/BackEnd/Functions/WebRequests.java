@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tech.baisi.mc.echo.BackEnd.Database.UserEntity;
 import tech.baisi.mc.echo.BackEnd.Database.UserMapper;
+import tech.baisi.mc.echo.BackEnd.Entity.UserData;
+
 
 @RestController
 public class WebRequests {
@@ -37,5 +39,17 @@ public class WebRequests {
         userMapper.insert(new UserEntity(name,password,token,0,game_key,"empty",reg_ip,time));
 
         return token;
+    }
+
+    @RequestMapping("/get_data")
+    public UserData GetData(@RequestParam(name = "token", defaultValue = "#no#token") String token){
+        if(userMapper.GetTokens(token).size() != 1){
+            //不是有效token
+            return new UserData("游客","xxxx",0,"empty");
+        } else {
+            //是有效token
+            UserEntity userEntity = userMapper.GetUserEntityByToken(token).get(0);
+            return new UserData(userEntity.getName(),userEntity.getGame_key(),userEntity.getMoney(),userEntity.getStatus());
+        }
     }
 }

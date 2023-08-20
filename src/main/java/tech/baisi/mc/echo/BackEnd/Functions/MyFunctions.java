@@ -1,10 +1,16 @@
 package tech.baisi.mc.echo.BackEnd.Functions;
 
-import org.apache.catalina.mapper.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import tech.baisi.mc.echo.BackEnd.Database.UserMapper;
 
 import java.text.SimpleDateFormat;
 
+@Component
 public class MyFunctions {
+    @Autowired
+    private static UserMapper userMapper;
+
     public static boolean IsLegalNameOrPassword(String name){ //a_97-z_122 A_65-Z_90 0_48-9_57 __95
         if(name.length() < 2 || name.length() > 20){
             return false;
@@ -38,4 +44,6 @@ public class MyFunctions {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(time);
     }
+
+
 }
