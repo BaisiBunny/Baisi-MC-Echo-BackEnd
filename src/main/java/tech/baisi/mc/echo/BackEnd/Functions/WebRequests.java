@@ -25,6 +25,9 @@ public class WebRequests {
         if(!MyFunctions.IsLegalNameOrPassword(name)){
             return "你的玩家ID不符合标准。";
         }
+        if(!userMapper.GetNames(name).isEmpty()){
+            return "玩家ID已被占用。";
+        }
         if(!MyFunctions.IsLegalNameOrPassword(password)){
             return "你的密码不符合标准。";
         }
@@ -52,4 +55,6 @@ public class WebRequests {
             return new UserData(userEntity.getName(),userEntity.getGame_key(),userEntity.getMoney(),userEntity.getStatus());
         }
     }
+
+
 }
