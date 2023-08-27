@@ -18,15 +18,27 @@ public class MyFunctions {
 
         boolean hasIllegalChar = false;
         for (char c : name.toCharArray()){
-            if(!(((int)c >=97&& (int)c <=122)||((int)c >=65&& (int)c <=90)||((int)c >=48&& (int)c <=57)|| (int)c ==95)){
+            if (!(((int) c >= 97 && (int) c <= 122) || ((int) c >= 65 && (int) c <= 90) || ((int) c >= 48 && (int) c <= 57) || (int) c == 95)) {
                 hasIllegalChar = true;
+                break;
             }
         }
-        if(hasIllegalChar){
+        return !hasIllegalChar;
+    }
+
+    public static boolean IsLegalToken(String name){ //a_97-z_122 A_65-Z_90 0_48-9_57 __95
+        if(name.length() != 32){
             return false;
         }
 
-        return true;
+        boolean hasIllegalChar = false;
+        for (char c : name.toCharArray()){
+            if (!(((int) c >= 97 && (int) c <= 122) || ((int) c >= 48 && (int) c <= 57))) {
+                hasIllegalChar = true;
+                break;
+            }
+        }
+        return !hasIllegalChar;
     }
 
 
@@ -35,6 +47,9 @@ public class MyFunctions {
         String toReturn = "";
         for(int i = 0; i < length; i++){
             toReturn = toReturn.concat(String.valueOf(randomStringBase.charAt((int)(Math.random()*35))));
+        }
+        if(length == 4 && toReturn.equals("xxxx")){
+            toReturn = GenerateRandomString(4);
         }
         return toReturn;
     }
