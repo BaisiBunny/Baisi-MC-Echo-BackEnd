@@ -12,6 +12,10 @@ public class MyFunctions {
     private static UserMapper userMapper;
 
     public static boolean IsLegalNameOrPassword(String name){ //a_97-z_122 A_65-Z_90 0_48-9_57 __95
+        if(name == null){
+            return false;
+        }
+
         if(name.length() < 2 || name.length() > 20){
             return false;
         }
@@ -27,6 +31,10 @@ public class MyFunctions {
     }
 
     public static boolean IsLegalToken(String name){ //a_97-z_122 A_65-Z_90 0_48-9_57 __95
+        if(name == null){
+            return false;
+        }
+
         if(name.length() != 32){
             return false;
         }

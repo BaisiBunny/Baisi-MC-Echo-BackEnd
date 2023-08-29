@@ -3,6 +3,7 @@ package tech.baisi.mc.echo.BackEnd.Functions;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.github.pagehelper.PageHelper;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tech.baisi.mc.echo.BackEnd.Database.ItemEntity;
@@ -20,6 +21,8 @@ public class WebRequests {
     private UserMapper userMapper;
     @Autowired
     private ItemMapper itemMapper;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @RequestMapping("/register_account")
     //注册新账号
@@ -164,9 +167,11 @@ public class WebRequests {
         }
         userMapper.UpdateMoneyByToken(token,new_money);
 
-        //模拟游戏内发货
-        System.out.println("模拟发货");
-        System.out.println(item.getCommand());
+        //发货
+        String sendMsg = item.getCommand().replace("$player$",user.getName());
+
+        //rabbitMQ
+        rabbitTemplate.convertAndSend("mc_exchange","mc_shop_routing",sendMsg);
 
         return "success";
     }
