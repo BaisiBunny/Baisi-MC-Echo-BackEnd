@@ -56,8 +56,8 @@ public class MyFunctions {
         for(int i = 0; i < length; i++){
             toReturn = toReturn.concat(String.valueOf(randomStringBase.charAt((int)(Math.random()*35))));
         }
-        if(length == 4 && toReturn.equals("xxxx")){
-            toReturn = GenerateRandomString(4);
+        if(length == 8 && toReturn.equals("xxxxxxxx")){
+            toReturn = GenerateRandomString(8);
         }
         return toReturn;
     }

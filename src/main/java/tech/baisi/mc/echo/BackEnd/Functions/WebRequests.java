@@ -53,7 +53,7 @@ public class WebRequests {
                 break;
             }
         }
-        String game_key = MyFunctions.GenerateRandomString(4);
+        String game_key = MyFunctions.GenerateRandomString(8);
         String time = MyFunctions.GetTimeNow();
         userMapper.insert(new UserEntity(name,password,token,0,game_key,"empty",reg_ip,time));
 
@@ -206,7 +206,7 @@ public class WebRequests {
             }
         }
 
-        String newGameKey = MyFunctions.GenerateRandomString(4);
+        String newGameKey = MyFunctions.GenerateRandomString(8);
 
         userMapper.ChangePassword(name,newPassword,newToken,newGameKey);
 
