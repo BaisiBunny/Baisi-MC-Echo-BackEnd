@@ -68,5 +68,8 @@ public class MyFunctions {
         return format.format(time);
     }
 
+    void test(){
+        return;
+    }
 
 }
